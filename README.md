@@ -28,7 +28,17 @@ Atraso típico: duração do trecho (30 s) + envio + transcrição (~2-5 s) — 
 | `src/screens/` | Gravar, Transcrições, Logbook, Ajustes |
 | `server/` | Servidor Node: filtros ffmpeg + transcrição + detecção de indicativos |
 
-## 1. Rodar o servidor
+## Instalar no Android (grátis)
+
+Baixe no celular: **https://github.com/credling/radiolog/releases/latest/download/RadioLog.apk**
+e abra o arquivo (permita "instalar apps desconhecidos" quando o Android pedir).
+Cada push na `main` gera um APK novo automaticamente (GitHub Actions).
+
+Em **Ajustes**, escolha o modo **direto** e cole uma chave gratuita da Groq
+(console.groq.com → API Keys). O modo **servidor** é opcional e adiciona os
+filtros de ruído do ffmpeg.
+
+## 1. Rodar o servidor (opcional)
 
 Precisa de Node 22+ e ffmpeg. Crie uma chave em um serviço de transcrição —
 recomendo a **Groq** (whisper-large-v3, rápida e barata) ou a **OpenAI**.

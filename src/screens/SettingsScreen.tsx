@@ -4,6 +4,7 @@ import { saveSettings, useSettings, type Settings } from '../settings';
 import { Button, C, Card, Chips, Field, Label, s } from '../ui';
 
 const FILTERS = ['nenhum', 'fm', 'hf', 'forte'] as const;
+const BACKENDS = ['direto', 'servidor'] as const;
 const FILTER_HELP: Record<Settings['filter'], string> = {
   nenhum: 'Envia o áudio como gravado.',
   fm: 'VHF/UHF em FM: corta graves e agudos e iguala o volume.',
@@ -33,16 +34,30 @@ export function SettingsScreen() {
       </Card>
 
       <Card>
-        <Field label="Endereço do servidor" value={st.serverUrl} autoCapitalize="none" keyboardType="url"
-          onChangeText={(serverUrl) => saveSettings({ serverUrl })} />
-        <Field label="Senha do servidor (APP_TOKEN)" value={st.token} autoCapitalize="none" secureTextEntry
-          onChangeText={(token) => saveSettings({ token })} />
-        <Button title="Testar conexão" outline onPress={testServer} />
-        {test ? <Text style={[s.dim, { marginTop: 8 }]}>{test}</Text> : null}
+        <Label>Transcrição</Label>
+        <Chips options={BACKENDS} value={st.backend} onChange={(backend) => saveSettings({ backend })} />
+        {st.backend === 'direto' ? (
+          <>
+            <Text style={[s.dim, { marginVertical: 8 }]}>
+              Grátis: crie uma conta em console.groq.com, vá em "API Keys", gere uma chave e cole aqui.
+            </Text>
+            <Field label="Chave da Groq" value={st.groqKey} autoCapitalize="none" secureTextEntry
+              onChangeText={(groqKey) => saveSettings({ groqKey })} />
+          </>
+        ) : (
+          <>
+            <Field label="Endereço do servidor" value={st.serverUrl} autoCapitalize="none" keyboardType="url"
+              onChangeText={(serverUrl) => saveSettings({ serverUrl })} />
+            <Field label="Senha do servidor (APP_TOKEN)" value={st.token} autoCapitalize="none" secureTextEntry
+              onChangeText={(token) => saveSettings({ token })} />
+            <Button title="Testar conexão" outline onPress={testServer} />
+            {test ? <Text style={[s.dim, { marginTop: 8 }]}>{test}</Text> : null}
+          </>
+        )}
       </Card>
 
       <Card>
-        <Label>Filtro de ruído</Label>
+        <Label>Filtro de ruído (só no modo servidor)</Label>
         <Chips options={FILTERS} value={st.filter} onChange={(filter) => saveSettings({ filter })} />
         <Text style={[s.dim, { marginTop: 8 }]}>{FILTER_HELP[st.filter]}</Text>
       </Card>

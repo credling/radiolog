@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { db, notifyDbChange, onDbChange } from './db';
 
 export type Settings = {
+  backend: 'direto' | 'servidor';
+  groqKey: string;     // modo direto: chave gratuita da Groq
   serverUrl: string;
   token: string;
   filter: 'nenhum' | 'fm' | 'hf' | 'forte';
@@ -13,6 +15,8 @@ export type Settings = {
 };
 
 export const DEFAULTS: Settings = {
+  backend: 'direto',
+  groqKey: '',
   serverUrl: 'http://192.168.0.10:3000',
   token: '',
   filter: 'hf',
